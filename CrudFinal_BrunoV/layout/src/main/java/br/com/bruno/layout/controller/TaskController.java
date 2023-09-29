@@ -15,6 +15,7 @@ import br.com.bruno.layout.model.Task;
 public class TaskController {
 
   List<Task> tasks = new ArrayList<>();
+  int x = 0;
 
   @GetMapping("/create")
   public ModelAndView home() {
@@ -31,7 +32,7 @@ public class TaskController {
       Task taskFind = tasks.stream().filter(taskItem -> task.getId().equals(taskItem.getId())).findFirst().get();
       tasks.set(tasks.indexOf(taskFind), task);
     } else {
-      Long id = tasks.size() + 1L;
+      Long id = tasks.size() + 1L + x;
       tasks.add(new Task(id, task.getName(), task.getCargo(), task.getDate()));
     }
 
@@ -58,7 +59,7 @@ public class TaskController {
   public String delete(@PathVariable("id") Long id) {
 
     tasks.removeIf(task -> id.equals(task.getId()));
-
+    x++;
     return "redirect:/list";
   }
 
